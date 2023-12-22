@@ -1,0 +1,32 @@
+Designing a secure, encrypted, and monitored three-server web infrastructure for hosting www.foobar.com involves integrating additional security and monitoring components. Let's detail each component and explain their purpose and specifics:
+
+https://imgur.com/a/7Uh7teR
+
+1. **Firewalls**:
+   - **Purpose**: To protect the network by controlling incoming and outgoing network traffic based on predetermined security rules.
+   - **Specifics**: Each server (web, application, database) can have a dedicated firewall. This layered approach enhances security, allowing fine-grained control over traffic to each server.
+
+2. **SSL Certificate**:
+   - **Purpose**: To encrypt data transmitted between the server and the client, ensuring secure communication over the internet.
+   - **Specifics**: An SSL certificate for www.foobar.com enables HTTPS, ensuring data integrity, confidentiality, and authentication.
+
+3. **Monitoring Clients**:
+   - **Purpose**: To collect and send data about the server's performance and health to a monitoring service like SumoLogic.
+   - **Specifics**: Each server has a monitoring client installed. These clients collect metrics, logs, and other data, sending them to the monitoring service for analysis and alerting.
+   - **Monitoring Web Server QPS (Queries Per Second)**: To monitor QPS, you configure the monitoring client to collect and report on web server metrics. This data can be used to analyze the web server's performance and capacity.
+
+**Issues with This Infrastructure**:
+
+1. **SSL Termination at Load Balancer**:
+   - **Issue**: When SSL is terminated at the load balancer, traffic between the load balancer and servers is unencrypted, creating a potential security vulnerability within the internal network.
+   - **Resolution**: Implement SSL end-to-end encryption by also encrypting the internal traffic between the load balancer and servers.
+
+2. **One MySQL Server Accepting Writes**:
+   - **Issue**: A single point of failure. If the MySQL server goes down, the entire application's ability to write or update data is compromised.
+   - **Resolution**: Implement a Master-Slave replication or a cluster setup where multiple nodes can handle writes.
+
+3. **Servers with All Components (Database, Web Server, Application Server)**:
+   - **Issue**: This can lead to resource contention, security vulnerabilities, and maintenance complexities. If one component fails or is compromised, it could affect the entire server.
+   - **Resolution**: Separation of concerns by dedicating servers for each component. This improves security, performance, and scalability.
+
+In summary, while this infrastructure adds significant security and monitoring capabilities, attention must be paid to the potential vulnerabilities, particularly regarding SSL termination, database write operations, and the distribution of components across the servers. Addressing these issues will enhance the overall robustness and reliability of the system.

@@ -1,0 +1,43 @@
+Designing a three-server web infrastructure for hosting the website www.foobar.com involves several components, each with specific roles and configurations. Let's break down each requirement and explain their purpose:
+
+https://imgur.com/a/KSBviwn
+
+1. **Web Server (Nginx)**: 
+   - **Purpose**: Serves web content to users. Nginx is efficient at handling static content and can also act as a reverse proxy for dynamic content.
+   - **Specifics**: Configured to serve the web pages and assets of www.foobar.com.
+
+2. **Application Server**: 
+   - **Purpose**: Handles the business logic of the website. It processes user requests, runs the backend code, and interacts with the database.
+   - **Specifics**: Hosts the application files and communicates with the database to fetch or update data.
+
+3. **Database (MySQL)**: 
+   - **Purpose**: Stores and manages data. MySQL is a popular relational database management system.
+   - **Specifics**: Contains all the data required for the website, like user information, content, etc.
+
+4. **Load Balancer (HAproxy)**: 
+   - **Purpose**: Distributes incoming traffic among the web and application servers to ensure scalability and reliability.
+   - **Distribution Algorithm**: Often configured with algorithms like round-robin, least connections, or source. For instance, round-robin distributes requests sequentially among the servers.
+   - **Active-Active vs. Active-Passive Setup**: 
+     - Active-Active: All servers are active and handle traffic. Provides high availability and load distribution.
+     - Active-Passive: One server is active, while others are on standby. The passive server(s) become active only if the active server fails. This setup is more about failover than load distribution.
+
+5. **Database Primary-Replica (Master-Slave) Cluster**: 
+   - **How it Works**: The primary node handles writes and updates. The replica nodes synchronize with the primary to mirror its data and handle read queries. This setup improves read performance and provides data redundancy.
+   - **Primary vs. Replica Node**: The primary node is responsible for all write operations, while replicas handle read operations. This separation can improve performance but requires careful synchronization and management.
+
+**Issues with This Infrastructure**:
+
+1. **Single Points of Failure (SPOF)**:
+   - If any component (like the database or the load balancer) fails, the entire system can become unavailable.
+   - Solutions include adding redundancy for each component and ensuring that backups are in place.
+
+2. **Security Issues**:
+   - Lack of firewall exposes the system to potential attacks.
+   - No HTTPS means data is transferred unencrypted, risking data integrity and confidentiality.
+   - Implementing firewalls, HTTPS, and other security measures like intrusion detection systems would mitigate these risks.
+
+3. **No Monitoring**: 
+   - Without monitoring, it's challenging to identify and respond to issues promptly. 
+   - Implementing monitoring tools can help in tracking the system's health, performance, and security.
+
+This infrastructure setup aims to balance performance, availability, and scalability. However, it's crucial to address its vulnerabilities, particularly in security and monitoring, to ensure robust and reliable service.

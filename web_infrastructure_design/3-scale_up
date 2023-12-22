@@ -1,0 +1,26 @@
+To design a scalable and resilient web infrastructure for hosting a website like www.foobar.com, you can distribute different components across multiple servers and use a load balancer to manage traffic. Here's a breakdown of the infrastructure components and the rationale for including each:
+
+https://imgur.com/a/y49gtE7
+
+1. **Server**:
+   - **Purpose**: To host the different components of the web infrastructure. Each server is dedicated to a specific role, enhancing performance and security.
+   - **Specifics**: In this setup, you will have multiple servers, each dedicated to hosting one component - one for the web server, one for the application server, and one for the database.
+
+2. **Load Balancer (HAproxy)**:
+   - **Purpose**: To distribute incoming traffic across multiple servers, ensuring efficient load handling and improved availability.
+   - **Configuration as a Cluster**: Configuring HAproxy as part of a cluster enhances its reliability. If one HAproxy instance fails, the other can take over, ensuring continuous availability.
+   - **Specifics**: The load balancer can distribute traffic between different servers hosting the web and application servers. This setup is crucial for handling high traffic efficiently and providing failover mechanisms.
+
+3. **Split Components**:
+   - **Web Server**: Hosts the static content and handles HTTP requests. Separating it onto its own server allows for optimized configuration and security specific to web serving needs.
+   - **Application Server**: Runs the application code (business logic). Isolating the application server enables dedicated resource allocation, thereby improving performance and making the system more secure.
+   - **Database Server**: Manages data storage and retrieval. A dedicated database server ensures data integrity and performance, especially under high load conditions.
+
+By adding each of these elements, the infrastructure achieves several key objectives:
+
+- **Scalability**: With separate servers for each component, it’s easier to scale up any part of the system independently as demand grows.
+- **Performance**: Dedicated resources for each component mean that there's less competition for resources, leading to better performance.
+- **Security**: Isolating different components reduces the risk of a security breach affecting the entire system.
+- **Availability**: Using a load balancer, especially in a clustered setup, improves the availability of the website. If one server goes down, the load balancer can redirect traffic to the remaining operational servers.
+
+This infrastructure design is ideal for medium to large-scale web applications, where traffic load, security, and performance are significant considerations.

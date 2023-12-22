@@ -1,0 +1,40 @@
+In this scenario, a user wants to access the website hosted at www.foobar.com. Here's how the one-server web infrastructure works and the roles of its components:
+
+https://imgur.com/a/3VVTz73
+
+1. **Server**:
+   - **Definition**: A server is a powerful computer or system designed to manage network resources and provide services to other computers (clients) over a network.
+   - **Role in this Infrastructure**: It hosts all the components needed for the website - the web server (Nginx), the application server, the application files, and the database (MySQL).
+
+2. **Domain Name and DNS Record**:
+   - **Role of the Domain Name**: It's a human-readable address (www.foobar.com) that users enter into their browser to access the website.
+   - **Type of DNS Record for 'www'**: The 'www' in www.foobar.com is typically an A record in DNS, which maps the domain name to an IP address.
+   - **Specifics**: The A record for www.foobar.com is configured to point to the server IP address 8.8.8.8.
+
+3. **Web Server (Nginx)**:
+   - **Role**: It handles HTTP requests from clients (browsers). When a user tries to access www.foobar.com, Nginx receives the request, processes it, and serves the appropriate web content.
+
+4. **Application Server**:
+   - **Role**: Hosts the application's operational logic. It processes dynamic content, interacts with the database, and executes the backend code necessary to generate the web content served by Nginx.
+
+5. **Database (MySQL)**:
+   - **Role**: Stores and retrieves data for the website. It organizes data efficiently and provides the application server with necessary data upon request.
+
+6. **Communication Protocol**:
+   - **How the Server Communicates with the User's Computer**: The communication is typically done over the HTTP/HTTPS protocol. When a user accesses www.foobar.com, their browser sends an HTTP request to the server, which then responds with the requested web page.
+
+**Issues with This Infrastructure**:
+
+1. **Single Point of Failure (SPOF)**:
+   - **Issue**: Since all components are on one server, any failure in the server (hardware, software, network issues) can make the entire website inaccessible.
+   - **Mitigation**: Implement redundancy and backup systems, though these solutions might be limited with a single-server setup.
+
+2. **Downtime During Maintenance**:
+   - **Issue**: When deploying new code or performing maintenance, the web server might need to be restarted, causing downtime.
+   - **Mitigation**: Use strategies like blue-green deployment or rolling updates to minimize downtime, but these can be complex in a single-server setup.
+
+3. **Scalability Concerns**:
+   - **Issue**: With increased traffic, the single server might struggle to handle the load, leading to performance issues or even outages.
+   - **Mitigation**: Optimize performance and use caching where possible. Ultimately, a single-server setup has inherent limitations in scalability.
+
+In summary, while this single-server setup can host a website and provide all necessary functionalities, it has notable limitations in terms of reliability, maintenance, and scalability. For larger or more critical applications, a more robust infrastructure with multiple servers and redundancy might be necessary.
